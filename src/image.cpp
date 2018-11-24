@@ -26,9 +26,9 @@ bool Image::to_ppm(const std::string &filename) const {
     for (int i = 0; i < y; i++) {
       for (int j = 0; j < x; j++) {
         const Color &color = (*this)[i][j];
-        file << std::setw(4) << (int)color.red << " ";
-        file << std::setw(4) << (int)color.green << " ";
-        file << std::setw(4) << (int)color.blue << " ";
+        file << std::setw(4) << (int)color.x << " ";
+        file << std::setw(4) << (int)color.y << " ";
+        file << std::setw(4) << (int)color.z << " ";
       }
       file << "\n";
     }

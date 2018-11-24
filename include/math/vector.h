@@ -41,4 +41,9 @@ public:
   }
 };
 
+template <typename T>
+Vec3<T> operator*(T r, const Vec3<T> &v) {
+  return Vec3<T>(r * v.x, r * v.y, r * v.z);
+}
+
 typedef Vec3<double> Vec3f;

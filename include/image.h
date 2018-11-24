@@ -1,10 +1,9 @@
 #pragma once
+#include "math/vector.h"
 #include <cinttypes>
 #include <string>
 
-struct Color {
-  uint8_t red, green, blue;
-};
+typedef Vec3<uint8_t> Color;
 
 class Image {
 private:
