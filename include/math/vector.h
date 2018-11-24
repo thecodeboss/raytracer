@@ -23,7 +23,11 @@ public:
   T dot(const Vec3<T> &v) const { return x * v.x + y * v.y + z * v.z; }
 
   Vec3<T> cross(const Vec3<T> &v) const {
-    return Vec3<T>(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+    // clang-format off
+    return Vec3<T>(y * v.z - z * v.y,
+                   z * v.x - x * v.z,
+                   x * v.y - y * v.x);
+    // clang-format on
   }
 
   Vec3<T> &normalize() {

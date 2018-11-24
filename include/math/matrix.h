@@ -36,8 +36,12 @@ public:
     Matrix44<T> result;
     for (uint8_t i = 0; i < 4; ++i) {
       for (uint8_t j = 0; j < 4; ++j) {
-        result[i][j] =
-            m[i][0] * rhs[0][j] + m[i][1] * rhs[1][j] + m[i][2] * rhs[2][j] + m[i][3] * rhs[3][j];
+        // clang-format off
+        result[i][j] = m[i][0] * rhs[0][j] +
+                       m[i][1] * rhs[1][j] +
+                       m[i][2] * rhs[2][j] +
+                       m[i][3] * rhs[3][j];
+        // clang-format on
       }
     }
 
@@ -75,8 +79,8 @@ public:
 
   friend std::ostream &operator<<(std::ostream &s, const Matrix44 &m) {
     std::ios_base::fmtflags oldFlags = s.flags();
-    int width = 12;
-    s.precision(5);
+    int width = 10;
+    s.precision(2);
     s.setf(std::ios_base::fixed);
 
     for (int i = 0; i < 4; i++) {
