@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "math/matrix.h"
 #include "math/vector.h"
+#include <iostream>
 
 Camera::Camera() : camera_to_world(Matrix44f()) {}
 
@@ -38,5 +39,5 @@ void Camera::look_at(const Vec3f &to) {
 }
 
 Vec3f Camera::position() const {
-  return Vec3f(camera_to_world[2][0], camera_to_world[2][1], camera_to_world[2][2]);
+  return Vec3f(camera_to_world[3][0], camera_to_world[3][1], camera_to_world[3][2]);
 }

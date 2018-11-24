@@ -3,8 +3,6 @@
 #include <cinttypes>
 #include <string>
 
-typedef Vec3<uint8_t> Color;
-
 class Image {
 private:
   Color *buffer;

@@ -1,6 +1,9 @@
 #include "math/utils.h"
+#include <algorithm>
 #include <cmath>
 #include <utility>
+
+double clamp(double lo, double hi, double v) { return std::max(lo, std::min(hi, v)); }
 
 bool solve_quadratic(double a, double b, double c, double &x0, double &x1) {
   double discr = b * b - 4 * a * c;

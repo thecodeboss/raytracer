@@ -1,4 +1,5 @@
 #include "image.h"
+#include "math/utils.h"
 #include <cinttypes>
 #include <fstream>
 #include <iomanip>
@@ -26,9 +27,9 @@ bool Image::to_ppm(const std::string &filename) const {
     for (int i = 0; i < y; i++) {
       for (int j = 0; j < x; j++) {
         const Color &color = (*this)[i][j];
-        file << std::setw(4) << (int)color.x << " ";
-        file << std::setw(4) << (int)color.y << " ";
-        file << std::setw(4) << (int)color.z << " ";
+        file << std::setw(4) << int(255 * clamp(0, 1, color.x)) << " ";
+        file << std::setw(4) << int(255 * clamp(0, 1, color.y)) << " ";
+        file << std::setw(4) << int(255 * clamp(0, 1, color.z)) << " ";
       }
       file << "\n";
     }

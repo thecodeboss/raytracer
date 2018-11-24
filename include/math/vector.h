@@ -1,4 +1,5 @@
 #pragma once
+#include <cinttypes>
 #include <cmath>
 #include <iomanip>
 #include <ostream>
@@ -51,3 +52,4 @@ Vec3<T> operator*(T r, const Vec3<T> &v) {
 }
 
 typedef Vec3<double> Vec3f;
+typedef Vec3f Color;
