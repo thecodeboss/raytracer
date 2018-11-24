@@ -46,7 +46,7 @@ public:
 
   // Multiply matrix with a point vector
   template <typename S>
-  Vec3<S> multiplyVec(const Vec3<S> &rhs) const {
+  Vec3<S> multiply_vec(const Vec3<S> &rhs) const {
     Vec3<S> result;
     S a, b, c, w;
 
@@ -63,7 +63,7 @@ public:
 
   // Multiply matrix with a direction vector (ignores translation)
   template <typename S>
-  Vec3<S> multiplyDir(const Vec3<S> &src) const {
+  Vec3<S> multiply_dir(const Vec3<S> &src) const {
     Vec3<S> result;
 
     result.x = src[0] * m[0][0] + src[1] * m[1][0] + src[2] * m[2][0];

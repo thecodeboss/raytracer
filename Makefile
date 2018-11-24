@@ -8,7 +8,7 @@ LDFLAGS   := -L/usr/lib -lstdc++ -lm
 #
 # Project files
 #
-SRCS    := $(wildcard src/*.cpp)
+SRCS    := $(shell find src/ -type f -name '*.cpp')
 OBJS    := $(SRCS:%.cpp=%.o)
 INCLUDE := -Iinclude/
 TARGET  := raytracer
