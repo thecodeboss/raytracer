@@ -14,9 +14,22 @@ public:
   Vec3(const T &xx) : x(xx), y(xx), z(xx) {}
   Vec3(T xx, T yy, T zz) : x(xx), y(yy), z(zz) {}
   Vec3<T> operator+(const Vec3<T> &v) const { return Vec3<T>(x + v.x, y + v.y, z + v.z); }
+  Vec3<T> &operator+=(const Vec3<T> &v) {
+    x += v.x;
+    y += v.y;
+    z += v.z;
+    return *this;
+  }
   Vec3<T> operator-(const Vec3<T> &v) const { return Vec3<T>(x - v.x, y - v.y, z - v.z); }
   Vec3<T> operator*(const Vec3<T> &v) const { return Vec3<T>(x * v.x, y * v.y, z * v.z); }
   Vec3<T> operator*(const T &r) const { return Vec3<T>(x * r, y * r, z * r); }
+  Vec3<T> operator/(const T &r) const {
+    if (r != 0) {
+      return Vec3<T>(x / r, y / r, z / r);
+    } else {
+      return *this;
+    }
+  }
   const T &operator[](uint8_t i) const { return (&x)[i]; }
   T &operator[](uint8_t i) { return (&x)[i]; }
 

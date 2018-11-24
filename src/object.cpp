@@ -2,7 +2,7 @@
 #include "materials/lambertian.h"
 #include "math/vector.h"
 
-static Lambertian default_material(Vec3f(0.8, 0.3, 0.3));
+static Lambertian default_material(Vec3f(0.5, 0.5, 0.5));
 
 Object::Object() : Object(Vec3f(0.0, 0.0, 0.0)) {}
 

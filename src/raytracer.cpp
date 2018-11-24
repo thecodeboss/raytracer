@@ -1,7 +1,9 @@
 #include "camera.h"
 #include "image.h"
 #include "intersection.h"
+#include "materials/lambertian.h"
 #include "math/matrix.h"
+#include "math/utils.h"
 #include "math/vector.h"
 #include "object.h"
 #include "objects/object_list.h"
@@ -15,7 +17,7 @@
 
 const Color white(1.0, 1.0, 1.0);
 const Color black(0.0, 0.0, 0.0);
-const Color light_blue(0.5, 0.7, 1.0);
+const Color light_blue(0.6, 0.8, 1.0);
 const double infinity = std::numeric_limits<double>::infinity();
 
 Color background(const Ray &ray) {
@@ -41,14 +43,20 @@ Color cast_ray(const Ray &ray, Object *world, int depth) {
 void render(const Camera &camera, Image &image, Object *world, const std::string &filename) {
   double scale = tan(camera.fov / 2);
   double aspect_ratio = double(image.x) / image.y;
+  const int num_samples = 100;
 
   for (int i = 0; i < image.y; i++) {
     for (int j = 0; j < image.x; j++) {
-      double x = (2 * (j + 0.5) / double(image.x) - 1) * aspect_ratio * scale;
-      double y = (1 - 2 * (i + 0.5) / double(image.y)) * scale;
-      Vec3f direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1));
-      Ray ray(camera.position(), direction);
-      image[i][j] = cast_ray(ray, world, 0);
+      Color color(0.0, 0.0, 0.0);
+      for (int s = 0; s < num_samples; s++) {
+        double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
+        double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
+        Vec3f direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1));
+        Ray ray(camera.position(), direction);
+        color += cast_ray(ray, world, 0);
+      }
+
+      image[i][j] = color / double(num_samples);
     }
   }
   image.to_ppm(filename);
@@ -60,15 +68,23 @@ int main(int argc, char const *argv[]) {
 
   ObjectList objects;
   objects.add(new Sphere(Vec3f(0.0, 1.0, 0.0)));
-  objects.add(new Sphere(Vec3f(-2.0, 0.5, 0.6), 0.5));
+  objects.add(new Sphere(Vec3f(-2.0, 0.5, 0.9), 0.5));
   objects.add(new Sphere(Vec3f(0.0, -1000.0, 0.0), 1000.0));
 
-  Camera camera(Vec3f(-10.0, 1.0, 0.0));
-  camera.look_at(objects[0]->position);
+  Material *diffuse_green = new Lambertian(Vec3f(0.3, 0.8, 0.3));
+  Material *diffuse_pink = new Lambertian(Vec3f(0.8, 0.3, 0.3));
+
+  objects[0]->material = diffuse_green;
+  objects[1]->material = diffuse_pink;
+
+  Camera camera(Vec3f(-7.0, 2.0, 0.0));
+  camera.look_at(Vec3f(0.0, 0.0, 0.0));
 
   Image image(600, 400);
 
   render(camera, image, &objects, "test.ppm");
 
+  free(diffuse_green);
+  free(diffuse_pink);
   return 0;
 }

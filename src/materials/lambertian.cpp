@@ -1,12 +1,10 @@
 #include "materials/lambertian.h"
-#include <random>
+#include "math/utils.h"
 
 Vec3f random_in_unit_sphere() {
   Vec3f point;
-  std::default_random_engine re;
-  std::uniform_real_distribution<double> uniform(0.0, 1.0);
   do {
-    point = 2.0 * Vec3f(uniform(re), uniform(re), uniform(re)) - Vec3f(1.0, 1.0, 1.0);
+    point = 2.0 * Vec3f(drand(), drand(), drand()) - Vec3f(1.0, 1.0, 1.0);
   } while (point.norm() >= 1.0);
 
   return point;

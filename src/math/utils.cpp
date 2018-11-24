@@ -1,7 +1,11 @@
 #include "math/utils.h"
 #include <algorithm>
 #include <cmath>
+#include <random>
 #include <utility>
+
+static std::default_random_engine re;
+static std::uniform_real_distribution<double> uniform(0.0, 1.0);
 
 double clamp(double lo, double hi, double v) { return std::max(lo, std::min(hi, v)); }
 
@@ -24,3 +28,5 @@ bool solve_quadratic(double a, double b, double c, double &x0, double &x1) {
 
   return true;
 }
+
+double drand() { return uniform(re); }
