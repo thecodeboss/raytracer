@@ -1,3 +1,4 @@
+#include "camera.h"
 #include "image.h"
 #include "math/matrix.h"
 #include "math/vector.h"
@@ -23,6 +24,9 @@ int main(int argc, char const *argv[]) {
   std::cout << test_vector.dot(test_vector) << std::endl;
   std::cout << test_vector.cross(test_vector) << std::endl;
   std::cout << test_matrix.multiply_vec(test_vector) << std::endl;
+
+  Camera camera(Vec3f(-5.0, 2.0, 0.0));
+  camera.look_at(Vec3f(0.0, 0.0, 0.0));
 
   Image image(600, 400);
   for (int i = 0; i < image.y; i++) {
