@@ -10,5 +10,6 @@ public:
   Sphere(const Vec3f &position);
   Sphere(const Vec3f &position, double radius);
 
-  virtual bool intersect(const Ray &ray, double &t) const override;
+  virtual bool intersect(const Ray &ray, double t_min, double t_max,
+                         Intersection &intersection) const override;
 };

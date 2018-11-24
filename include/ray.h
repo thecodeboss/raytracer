@@ -5,6 +5,7 @@ class Ray {
 public:
   Vec3f origin, direction;
 
+  Ray();
   Ray(const Vec3f &origin, const Vec3f &direction);
   Vec3f point_at(double t) const;
 };

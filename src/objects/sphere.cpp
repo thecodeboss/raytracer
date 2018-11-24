@@ -8,7 +8,8 @@ Sphere::Sphere(const Vec3f &position) : Sphere(position, 1.0) {}
 
 Sphere::Sphere(const Vec3f &position, double radius) : Object(position), radius2(radius * radius) {}
 
-bool Sphere::intersect(const Ray &ray, double &t) const {
+bool Sphere::intersect(const Ray &ray, double t_min, double t_max,
+                       Intersection &intersection) const {
   double t0, t1;
 
   Vec3f L = ray.origin - position;
@@ -24,17 +25,23 @@ bool Sphere::intersect(const Ray &ray, double &t) const {
     std::swap(t0, t1);
   }
 
-  if (t0 < 0) {
+  if (t0 < t_min) {
     // if t0 is negative, use t1 instead
     t0 = t1;
 
-    if (t0 < 0) {
+    if (t0 < t_min) {
       // both t0 and t1 are negative
       return false;
     }
   }
 
-  t = t0;
+  if (t0 < t_min || t0 > t_max) {
+    return false;
+  }
+
+  Vec3f point = ray.origin + t0 * ray.direction;
+  Vec3f normal = (point - position).normalize();
+  intersection = Intersection(t0, point, normal, material);
 
   return true;
 }
