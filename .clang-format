@@ -1,2 +1,3 @@
 BasedOnStyle: LLVM
+AlwaysBreakTemplateDeclarations: true
 ColumnLimit: 100
