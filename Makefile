@@ -1,37 +1,67 @@
-CXX      := g++
-CXXFLAGS := -pedantic-errors -Wall -Wextra -Werror -std=c++17
-LDFLAGS  := -L/usr/lib -lstdc++ -lm
-BUILD    := ./build
-OBJ_DIR  := $(BUILD)/objects
-APP_DIR  := $(BUILD)/apps
-TARGET   := raytracer
-INCLUDE  := -Iinclude/
-SRC      := $(wildcard src/*.cpp)
+#
+# Compiler Settings
+#
+CXX       := g++
+CXXFLAGS  := -pedantic-errors -Wall -Wextra -Werror -std=c++17
+LDFLAGS   := -L/usr/lib -lstdc++ -lm
 
-OBJECTS := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
+#
+# Project files
+#
+SRCS    := $(wildcard src/*.cpp)
+OBJS    := $(SRCS:%.cpp=%.o)
+INCLUDE := -Iinclude/
+TARGET  := raytracer
 
-all: build $(APP_DIR)/$(TARGET)
+#
+# Debug Settings
+#
+DEBUG_DIR    := build/debug
+DEBUG_TARGET := $(DEBUG_DIR)/apps/$(TARGET)
+DEBUG_OBJS   := $(addprefix $(DEBUG_DIR)/objects/, $(OBJS))
+DEBUG_FLAGS  := -g -O0 -DDEBUG
 
-$(OBJ_DIR)/%.o: %.cpp
+#
+# Release Settings
+#
+RELEASE_DIR    := build/release
+RELEASE_TARGET := $(RELEASE_DIR)/apps/$(TARGET)
+RELEASE_OBJS   := $(addprefix $(RELEASE_DIR)/objects/, $(OBJS))
+RELEASE_FLAGS  := -O3 -DNDEBUG
+
+.PHONY: all clean debug release
+
+# Default Build
+all: release
+
+#
+# Debug Rules
+#
+debug: $(DEBUG_TARGET)
+
+$(DEBUG_DIR)/objects/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $(INCLUDE) -o $@ -c $<
 
-$(APP_DIR)/$(TARGET): $(OBJECTS)
+$(DEBUG_TARGET): $(DEBUG_OBJS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) $(LDFLAGS) -o $(APP_DIR)/$(TARGET) $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $(INCLUDE) $(LDFLAGS) -o $(DEBUG_TARGET) $^
 
-.PHONY: all build clean debug release
+#
+# Release Rules
+#
+release: $(RELEASE_TARGET)
 
-build:
-	@mkdir -p $(APP_DIR)
-	@mkdir -p $(OBJ_DIR)
+$(RELEASE_DIR)/objects/%.o: %.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(RELEASE_FLAGS) $(INCLUDE) -o $@ -c $<
 
-debug: CXXFLAGS += -DDEBUG -g
-debug: all
+$(RELEASE_TARGET): $(RELEASE_OBJS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(RELEASE_FLAGS) $(INCLUDE) $(LDFLAGS) -o $(RELEASE_TARGET) $^
 
-release: CXXFLAGS += -O3
-release: all
-
+#
+# Other rules
+#
 clean:
-	-@rm -rvf $(OBJ_DIR)/*
-	-@rm -rvf $(APP_DIR)/*
+	rm -rf $(RELEASE_TARGET) $(RELEASE_OBJS) $(DEBUG_TARGET) $(DEBUG_OBJS)
