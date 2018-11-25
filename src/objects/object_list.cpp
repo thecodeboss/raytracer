@@ -3,6 +3,7 @@
 const double infinity = std::numeric_limits<double>::infinity();
 
 ObjectList::ObjectList() {}
+ObjectList::~ObjectList() {}
 
 const Object *ObjectList::operator[](size_t i) const { return objects[i]; }
 Object *ObjectList::operator[](size_t i) { return objects[i]; }

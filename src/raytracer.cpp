@@ -86,7 +86,10 @@ int main(int argc, char const *argv[]) {
 
   render(camera, image, &objects, "test.ppm");
 
-  free(diffuse_green);
-  free(diffuse_pink);
+  delete diffuse_green;
+  delete diffuse_pink;
+  for (auto object : objects) {
+    delete object;
+  }
   return 0;
 }

@@ -12,6 +12,8 @@ Vec3f random_in_unit_sphere() {
 
 Lambertian::Lambertian(const Vec3f &albedo) : albedo(albedo) {}
 
+Lambertian::~Lambertian() {}
+
 bool Lambertian::scatter(const Ray &ray, const Intersection &intersection, Vec3f &attenuation,
                          Ray &scattered) const {
   (void)ray;

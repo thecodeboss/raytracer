@@ -9,6 +9,8 @@ Sphere::Sphere(const Vec3f &position) : Sphere(position, 1.0) {}
 Sphere::Sphere(const Vec3f &position, double radius)
     : Object(position), radius(radius), radius2(radius * radius) {}
 
+Sphere::~Sphere() {}
+
 bool Sphere::intersect(const Ray &ray, double t_min, double t_max,
                        Intersection &intersection) const {
   double t0, t1;

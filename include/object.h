@@ -13,6 +13,7 @@ public:
   Object();
   Object(const Vec3f &position);
   Object(const Vec3f &position, Material *material);
+  virtual ~Object(){};
 
   virtual bool intersect(const Ray &ray, double t_min, double t_max,
                          Intersection &intersection) const = 0;
