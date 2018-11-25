@@ -33,15 +33,14 @@ bool Image::to_ppm(const std::string &filename) const {
   file.open(filename);
   file.setf(std::ios_base::fixed);
   if (file.is_open()) {
-    file << "P3\n" << x << " " << y << "\n255\n";
+    file << "P6\n" << x << " " << y << " 255\n";
     for (int i = 0; i < y; i++) {
       for (int j = 0; j < x; j++) {
         const Color &color = (*this)[i][j];
-        file << std::setw(4) << int(255 * clamp(0, 1, color.x)) << " ";
-        file << std::setw(4) << int(255 * clamp(0, 1, color.y)) << " ";
-        file << std::setw(4) << int(255 * clamp(0, 1, color.z)) << " ";
+        file << char(255 * clamp(0, 1, color.x));
+        file << char(255 * clamp(0, 1, color.y));
+        file << char(255 * clamp(0, 1, color.z));
       }
-      file << "\n";
     }
     file.close();
   } else {
