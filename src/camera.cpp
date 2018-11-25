@@ -1,11 +1,25 @@
 #include "camera.h"
 #include "math/matrix.h"
+#include "math/utils.h"
 #include "math/vector.h"
 #include <iostream>
+
+static Vec3f random_in_unit_disk() {
+  Vec3f point;
+  do {
+    point = Vec3f(2.0 * drand() - 1, 2.0 * drand() - 1, 0.0);
+  } while (point.norm() >= 1.0);
+
+  return point;
+}
 
 Camera::Camera() : camera_to_world(Matrix44f()) {}
 
 Camera::Camera(const Vec3f &position) : position(position) {
+  right = Vec3f(1.0, 0.0, 0.0);
+  up = Vec3f(0.0, 1.0, 0.0);
+  forward = Vec3f(0.0, 0.0, 1.0);
+
   // clang-format off
   camera_to_world = Matrix44f(
     1.0, 0.0, 0.0, 0.0,
@@ -16,14 +30,11 @@ Camera::Camera(const Vec3f &position) : position(position) {
   // clang-format on
 }
 
-Camera::Camera(const Vec3f &position, const Vec3f &look_at) : Camera(position) {
-  this->look_at(look_at);
-}
-
 void Camera::look_at(const Vec3f &to) {
-  Vec3f forward = (position - to).normalize();
-  Vec3f right = Vec3f(0, 1, 0).cross(forward);
-  Vec3f up = forward.cross(right);
+  distance_to_focus = (position - to).length();
+  forward = (position - to).normalize();
+  right = Vec3f(0, 1, 0).cross(forward);
+  up = forward.cross(right);
 
   camera_to_world[0][0] = right.x;
   camera_to_world[0][1] = right.y;
@@ -46,8 +57,13 @@ void Camera::set_position(Vec3f &p) {
 }
 
 Ray Camera::get_ray(double x, double y) const {
-  Ray ray;
-  ray.origin = position;
-  ray.direction = camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
-  return ray;
+  double lens_radius = aperture / 2.0;
+  Vec3f rd = lens_radius * random_in_unit_disk();
+  Vec3f pos_offset = right * rd.x + up * rd.y;
+
+  Vec3f orig_ray_direction = camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
+  Vec3f dir_offset =
+      (distance_to_focus * orig_ray_direction - pos_offset).normalize() - orig_ray_direction;
+
+  return Ray(position + pos_offset, (orig_ray_direction + dir_offset).normalize());
 }

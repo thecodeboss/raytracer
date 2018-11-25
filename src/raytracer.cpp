@@ -111,6 +111,7 @@ int main(int argc, char const *argv[]) {
 
   Camera camera(Vec3f(-7.0, 2.0, 0.0));
   camera.look_at(Vec3f(0.0, 0.4, 0.0));
+  camera.aperture = 0.3;
   camera.fov = deg2rad(30);
 
   render(camera, image, &objects, "test.ppm");

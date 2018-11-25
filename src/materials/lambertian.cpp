@@ -1,7 +1,7 @@
 #include "materials/lambertian.h"
 #include "math/utils.h"
 
-Vec3f random_in_unit_sphere() {
+static Vec3f random_in_unit_sphere() {
   Vec3f point;
   do {
     point = Vec3f(2.0 * drand() - 1, 2.0 * drand() - 1, 2.0 * drand() - 1);

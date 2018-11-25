@@ -7,14 +7,16 @@
 class Camera {
 private:
   Vec3f position;
+  Vec3f forward, up, right;
 
 public:
   Matrix44f camera_to_world;
+  double aperture = 0.1;
+  double distance_to_focus = 10.0;
   double fov = M_PI_4;
 
   Camera();
   Camera(const Vec3f &position);
-  Camera(const Vec3f &position, const Vec3f &look_at);
 
   void look_at(const Vec3f &look_at);
   Vec3f get_position() const;
