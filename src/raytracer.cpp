@@ -74,6 +74,7 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
   for (int i = 0; i < image.y; i++) {
     for (int j = 0; j < image.x; j++) {
       image[i][j] /= double(num_samples);
+      image[i][j] = sqrt(image[i][j]);
     }
   }
 

@@ -71,6 +71,16 @@ template <typename T>
 Vec3<T> operator*(T r, const Vec3<T> &v) {
   return Vec3<T>(r * v.x, r * v.y, r * v.z);
 }
+template <typename T>
+Vec3<T> sqrt(const Vec3<T> &v) {
+  Vec3<T> result;
+  if (v.x >= 0 && v.y >= 0 && v.z >= 0) {
+    result.x = sqrt(v.x);
+    result.y = sqrt(v.y);
+    result.z = sqrt(v.z);
+  }
+  return result;
+}
 
 typedef Vec3<double> Vec3f;
 typedef Vec3f Color;
