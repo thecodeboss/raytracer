@@ -1,10 +1,6 @@
 #include "materials/metal.h"
 #include "math/utils.h"
 
-static Vec3f reflect(const Vec3f &incident, const Vec3f &normal) {
-  return incident - 2 * incident.dot(normal) * normal;
-}
-
 Metal::Metal(const Vec3f &albedo) : albedo(albedo) {}
 
 Metal::~Metal() {}

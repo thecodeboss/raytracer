@@ -20,6 +20,7 @@ public:
     z += v.z;
     return *this;
   }
+  Vec3<T> operator-() const { return Vec3<T>(-x, -y, -z); }
   Vec3<T> operator-(const Vec3<T> &v) const { return Vec3<T>(x - v.x, y - v.y, z - v.z); }
   Vec3<T> operator*(const Vec3<T> &v) const { return Vec3<T>(x * v.x, y * v.y, z * v.z); }
   Vec3<T> operator*(const T &r) const { return Vec3<T>(x * r, y * r, z * r); }
