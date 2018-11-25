@@ -44,3 +44,10 @@ void Camera::set_position(Vec3f &p) {
   camera_to_world[3][1] = p.y;
   camera_to_world[3][2] = p.z;
 }
+
+Ray Camera::get_ray(double x, double y) const {
+  Ray ray;
+  ray.origin = position;
+  ray.direction = camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
+  return ray;
+}

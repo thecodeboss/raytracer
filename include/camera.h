@@ -1,6 +1,7 @@
 #pragma once
 #include "math/matrix.h"
 #include "math/vector.h"
+#include "ray.h"
 #include <cmath>
 
 class Camera {
@@ -18,4 +19,5 @@ public:
   void look_at(const Vec3f &look_at);
   Vec3f get_position() const;
   void set_position(Vec3f &p);
+  Ray get_ray(double x, double y) const;
 };

@@ -56,12 +56,11 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
 
   for (int s = 0; s < num_samples; s++) {
     thread_pool.add_task([&]() -> void {
-      Ray ray(camera.get_position(), Vec3f(0, 0, 0));
       for (int i = 0; i < image.y; i++) {
         for (int j = 0; j < image.x; j++) {
           double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
           double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
-          ray.direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
+          Ray ray = camera.get_ray(x, y);
           Color color = cast_ray(ray, world, 0);
           image.safe_add(i, j, color);
         }
@@ -108,11 +107,11 @@ int main(int argc, char const *argv[]) {
   objects[4]->material = stainless_steel;
   objects[5]->material = glass;
 
+  Image image(600, 400);
+
   Camera camera(Vec3f(-7.0, 2.0, 0.0));
   camera.look_at(Vec3f(0.0, 0.4, 0.0));
   camera.fov = deg2rad(30);
-
-  Image image(600, 400);
 
   render(camera, image, &objects, "test.ppm");
 
