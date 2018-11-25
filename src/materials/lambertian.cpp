@@ -4,7 +4,7 @@
 Vec3f random_in_unit_sphere() {
   Vec3f point;
   do {
-    point = 2.0 * Vec3f(drand(), drand(), drand()) - Vec3f(1.0, 1.0, 1.0);
+    point = Vec3f(2.0 * drand() - 1, 2.0 * drand() - 1, 2.0 * drand() - 1);
   } while (point.norm() >= 1.0);
 
   return point;

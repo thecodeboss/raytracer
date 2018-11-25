@@ -30,7 +30,7 @@ Color cast_ray(const Ray &ray, Object *world, int depth) {
   if (world->intersect(ray, 0.001, infinity, intersection)) {
     Ray scattered;
     Vec3f attenuation;
-    if (depth < 50 && intersection.material->scatter(ray, intersection, attenuation, scattered)) {
+    if (depth < 10 && intersection.material->scatter(ray, intersection, attenuation, scattered)) {
       return attenuation * cast_ray(scattered, world, depth + 1);
     } else {
       return black;
@@ -45,14 +45,16 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
   double aspect_ratio = double(image.x) / image.y;
   const int num_samples = 100;
 
+  Vec3f camera_position = camera.position();
+  Ray ray(camera_position, Vec3f(0, 0, 0));
+
   for (int i = 0; i < image.y; i++) {
     for (int j = 0; j < image.x; j++) {
       Color color(0.0, 0.0, 0.0);
       for (int s = 0; s < num_samples; s++) {
         double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
         double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
-        Vec3f direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1));
-        Ray ray(camera.position(), direction);
+        ray.direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
         color += cast_ray(ray, world, 0);
       }
 

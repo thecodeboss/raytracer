@@ -48,8 +48,7 @@ public:
   Vec3<T> &normalize() {
     T len = length();
     if (len > 0) {
-      T inverse_length = 1 / len;
-      x *= inverse_length, y *= inverse_length, z *= inverse_length;
+      x /= len, y /= len, z /= len;
     }
 
     return *this;

@@ -4,7 +4,7 @@
 
 class Sphere : public Object {
 public:
-  double radius2;
+  double radius, radius2;
 
   Sphere();
   Sphere(const Vec3f &position);
