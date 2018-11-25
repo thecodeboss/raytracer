@@ -30,6 +30,14 @@ public:
       return *this;
     }
   }
+  Vec3<T> &operator/=(const T &r) {
+    if (r != 0) {
+      x /= r;
+      y /= r;
+      z /= r;
+    }
+    return *this;
+  }
   const T &operator[](uint8_t i) const { return (&x)[i]; }
   T &operator[](uint8_t i) { return (&x)[i]; }
 

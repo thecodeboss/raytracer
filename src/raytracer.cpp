@@ -52,19 +52,27 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
   Vec3f camera_position = camera.position();
   Ray ray(camera_position, Vec3f(0, 0, 0));
 
-  for (int i = 0; i < image.y; i++) {
-    for (int j = 0; j < image.x; j++) {
-      Color color(0.0, 0.0, 0.0);
-      for (int s = 0; s < num_samples; s++) {
+  for (int s = 0; s < num_samples; s++) {
+    for (int i = 0; i < image.y; i++) {
+      for (int j = 0; j < image.x; j++) {
+        Color color(0.0, 0.0, 0.0);
+
         double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
         double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
         ray.direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
         color += cast_ray(ray, world, 0);
-      }
 
-      image[i][j] = color / double(num_samples);
+        image[i][j] += color;
+      }
     }
   }
+
+  for (int i = 0; i < image.y; i++) {
+    for (int j = 0; j < image.x; j++) {
+      image[i][j] /= double(num_samples);
+    }
+  }
+
   image.to_ppm(filename);
 }
 
