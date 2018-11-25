@@ -110,7 +110,8 @@ int main(int argc, char const *argv[]) {
   objects[5]->material = glass;
 
   Camera camera(Vec3f(-7.0, 2.0, 0.0));
-  camera.look_at(Vec3f(0.0, 0.0, 0.0));
+  camera.look_at(Vec3f(0.0, 0.4, 0.0));
+  camera.fov = deg2rad(30);
 
   Image image(600, 400);
 
