@@ -2,6 +2,7 @@
 #include "image.h"
 #include "intersection.h"
 #include "materials/lambertian.h"
+#include "materials/metal.h"
 #include "math/matrix.h"
 #include "math/utils.h"
 #include "math/vector.h"
@@ -86,13 +87,22 @@ int main(int argc, char const *argv[]) {
   ObjectList objects;
   objects.add(new Sphere(Vec3f(0.0, 1.0, 0.0)));
   objects.add(new Sphere(Vec3f(-2.0, 0.5, 0.9), 0.5));
+  objects.add(new Sphere(Vec3f(-1.5, 0.7, -2.0), 0.7));
+  objects.add(new Sphere(Vec3f(-0.5, 0.8, 2.5), 0.8));
+  objects.add(new Sphere(Vec3f(1.1, 1.0, -1.9), 1.0));
   objects.add(new Sphere(Vec3f(0.0, -1000.0, 0.0), 1000.0));
 
   Material *diffuse_green = new Lambertian(Vec3f(0.3, 0.8, 0.3));
   Material *diffuse_pink = new Lambertian(Vec3f(0.8, 0.3, 0.3));
+  Material *metallic_red = new Metal(Vec3f(0.8, 0.2, 0.2));
+  Material *metallic_blue = new Metal(Vec3f(0.2, 0.2, 0.8));
+  Material *stainless_steel = new Metal(Vec3f(0.8, 0.8, 0.8));
 
   objects[0]->material = diffuse_green;
   objects[1]->material = diffuse_pink;
+  objects[2]->material = metallic_red;
+  objects[3]->material = metallic_blue;
+  objects[4]->material = stainless_steel;
 
   Camera camera(Vec3f(-7.0, 2.0, 0.0));
   camera.look_at(Vec3f(0.0, 0.0, 0.0));
@@ -103,6 +113,9 @@ int main(int argc, char const *argv[]) {
 
   delete diffuse_green;
   delete diffuse_pink;
+  delete metallic_red;
+  delete metallic_blue;
+  delete stainless_steel;
   for (auto object : objects) {
     delete object;
   }
