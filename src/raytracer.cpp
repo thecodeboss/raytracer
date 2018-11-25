@@ -94,15 +94,15 @@ int main(int argc, char const *argv[]) {
   objects.add(new Sphere(Vec3f(0.0, -1000.0, 0.0), 1000.0));
 
   Material *diffuse_green = new Lambertian(Vec3f(0.3, 0.8, 0.3));
-  Material *diffuse_pink = new Lambertian(Vec3f(0.8, 0.3, 0.3));
-  Material *metallic_red = new Metal(Vec3f(0.8, 0.2, 0.2));
+  Material *diffuse_red = new Lambertian(Vec3f(0.9, 0.1, 0.1));
+  Material *metallic_yellow = new Metal(Vec3f(0.8, 0.8, 0.2));
   Material *metallic_blue = new Metal(Vec3f(0.2, 0.2, 0.8));
   Material *stainless_steel = new Metal(Vec3f(0.8, 0.8, 0.8));
   Material *glass = new Dielectric(1.5);
 
   objects[0]->material = diffuse_green;
-  objects[1]->material = diffuse_pink;
-  objects[2]->material = metallic_red;
+  objects[1]->material = diffuse_red;
+  objects[2]->material = metallic_yellow;
   objects[3]->material = metallic_blue;
   objects[4]->material = stainless_steel;
   objects[5]->material = glass;
@@ -111,14 +111,14 @@ int main(int argc, char const *argv[]) {
 
   Camera camera(Vec3f(-7.0, 2.0, 0.0));
   camera.look_at(Vec3f(0.0, 0.4, 0.0));
-  camera.aperture = 0.3;
+  camera.aperture = 0.2;
   camera.fov = deg2rad(30);
 
   render(camera, image, &objects, "test.ppm");
 
   delete diffuse_green;
-  delete diffuse_pink;
-  delete metallic_red;
+  delete diffuse_red;
+  delete metallic_yellow;
   delete metallic_blue;
   delete stainless_steel;
   delete glass;
