@@ -5,7 +5,7 @@
 
 Camera::Camera() : camera_to_world(Matrix44f()) {}
 
-Camera::Camera(const Vec3f &position) {
+Camera::Camera(const Vec3f &position) : position(position) {
   // clang-format off
   camera_to_world = Matrix44f(
     1.0, 0.0, 0.0, 0.0,
@@ -21,9 +21,7 @@ Camera::Camera(const Vec3f &position, const Vec3f &look_at) : Camera(position) {
 }
 
 void Camera::look_at(const Vec3f &to) {
-  Vec3f from = this->position();
-
-  Vec3f forward = (from - to).normalize();
+  Vec3f forward = (position - to).normalize();
   Vec3f right = Vec3f(0, 1, 0).cross(forward);
   Vec3f up = forward.cross(right);
 
@@ -38,6 +36,11 @@ void Camera::look_at(const Vec3f &to) {
   camera_to_world[2][2] = forward.z;
 }
 
-Vec3f Camera::position() const {
-  return Vec3f(camera_to_world[3][0], camera_to_world[3][1], camera_to_world[3][2]);
+Vec3f Camera::get_position() const { return position; }
+
+void Camera::set_position(Vec3f &p) {
+  position = p;
+  camera_to_world[3][0] = p.x;
+  camera_to_world[3][1] = p.y;
+  camera_to_world[3][2] = p.z;
 }

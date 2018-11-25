@@ -4,6 +4,9 @@
 #include <cmath>
 
 class Camera {
+private:
+  Vec3f position;
+
 public:
   Matrix44f camera_to_world;
   double fov = M_PI_4;
@@ -13,5 +16,6 @@ public:
   Camera(const Vec3f &position, const Vec3f &look_at);
 
   void look_at(const Vec3f &look_at);
-  Vec3f position() const;
+  Vec3f get_position() const;
+  void set_position(Vec3f &p);
 };

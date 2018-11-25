@@ -52,12 +52,11 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
   const int num_samples = 800;
 #endif
 
-  Vec3f camera_position = camera.position();
   ThreadPool thread_pool;
 
   for (int s = 0; s < num_samples; s++) {
     thread_pool.add_task([&]() -> void {
-      Ray ray(camera_position, Vec3f(0, 0, 0));
+      Ray ray(camera.get_position(), Vec3f(0, 0, 0));
       for (int i = 0; i < image.y; i++) {
         for (int j = 0; j < image.x; j++) {
           double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
