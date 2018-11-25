@@ -17,7 +17,7 @@
 
 const Color white(1.0, 1.0, 1.0);
 const Color black(0.0, 0.0, 0.0);
-const Color light_blue(0.6, 0.8, 1.0);
+const Color light_blue(0.5, 0.7, 1.0);
 const double infinity = std::numeric_limits<double>::infinity();
 
 Color background(const Ray &ray) {
@@ -30,7 +30,7 @@ Color cast_ray(const Ray &ray, Object *world, int depth) {
   if (world->intersect(ray, 0.001, infinity, intersection)) {
     Ray scattered;
     Vec3f attenuation;
-    if (depth < 5 && intersection.material->scatter(ray, intersection, attenuation, scattered)) {
+    if (depth < 50 && intersection.material->scatter(ray, intersection, attenuation, scattered)) {
       return attenuation * cast_ray(scattered, world, depth + 1);
     } else {
       return black;

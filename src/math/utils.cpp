@@ -1,10 +1,11 @@
 #include "math/utils.h"
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <random>
 #include <utility>
 
-static std::default_random_engine re;
+static std::default_random_engine re(std::chrono::system_clock::now().time_since_epoch().count());
 static std::uniform_real_distribution<double> uniform(0.0, 1.0);
 
 double clamp(double lo, double hi, double v) { return std::max(lo, std::min(hi, v)); }
