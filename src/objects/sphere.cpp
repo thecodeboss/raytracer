@@ -24,10 +24,6 @@ bool Sphere::intersect(const Ray &ray, double t_min, double t_max,
     return false;
   }
 
-  if (t0 > t1) {
-    std::swap(t0, t1);
-  }
-
   if (t0 < t_min) {
     // if t0 is negative, use t1 instead
     t0 = t1;
@@ -38,7 +34,7 @@ bool Sphere::intersect(const Ray &ray, double t_min, double t_max,
     }
   }
 
-  if (t0 < t_min || t0 > t_max) {
+  if (t0 > t_max) {
     return false;
   }
 

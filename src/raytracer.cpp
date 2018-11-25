@@ -43,7 +43,11 @@ Color cast_ray(const Ray &ray, Object *world, int depth) {
 void render(const Camera &camera, Image &image, Object *world, const std::string &filename) {
   double scale = tan(camera.fov / 2);
   double aspect_ratio = double(image.x) / image.y;
+#ifdef DEBUG
+  const int num_samples = 25;
+#else
   const int num_samples = 100;
+#endif
 
   Vec3f camera_position = camera.position();
   Ray ray(camera_position, Vec3f(0, 0, 0));

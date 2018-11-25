@@ -19,7 +19,7 @@ TARGET  := raytracer
 DEBUG_DIR    := build/debug
 DEBUG_TARGET := $(DEBUG_DIR)/apps/$(TARGET)
 DEBUG_OBJS   := $(addprefix $(DEBUG_DIR)/objects/, $(OBJS))
-DEBUG_FLAGS  := -g -O0 -DDEBUG
+DEBUG_FLAGS  := -g -Og -DDEBUG
 
 #
 # Release Settings
@@ -27,7 +27,7 @@ DEBUG_FLAGS  := -g -O0 -DDEBUG
 RELEASE_DIR    := build/release
 RELEASE_TARGET := $(RELEASE_DIR)/apps/$(TARGET)
 RELEASE_OBJS   := $(addprefix $(RELEASE_DIR)/objects/, $(OBJS))
-RELEASE_FLAGS  := -O3 -DNDEBUG
+RELEASE_FLAGS  := -Ofast -DNDEBUG
 
 .PHONY: all clean debug release
 
