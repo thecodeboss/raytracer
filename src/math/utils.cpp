@@ -5,8 +5,8 @@
 #include <random>
 #include <utility>
 
-thread_local auto rand_double =
-    std::bind(std::uniform_real_distribution<double>(0.0, 1.0), std::minstd_rand());
+thread_local auto rand_double = std::bind(std::uniform_real_distribution<double>(0.0, 1.0),
+                                          std::minstd_rand(std::random_device()()));
 
 double clamp(double lo, double hi, double v) { return std::max(lo, std::min(hi, v)); }
 

@@ -3,7 +3,7 @@
 #
 CXX       := g++
 CXXFLAGS  := -pedantic-errors -Wall -Wextra -Werror -std=c++17
-LDFLAGS   := -L/usr/lib -lstdc++ -lm
+LDFLAGS   := -L/usr/lib -lstdc++ -lm -lboost_system -lboost_thread 
 
 #
 # Project files
@@ -45,7 +45,7 @@ $(DEBUG_DIR)/objects/%.o: %.cpp
 
 $(DEBUG_TARGET): $(DEBUG_OBJS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $(INCLUDE) $(LDFLAGS) -o $(DEBUG_TARGET) $^
+	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $(INCLUDE) -o $(DEBUG_TARGET) $^ $(LDFLAGS)
 
 #
 # Release Rules
@@ -58,7 +58,7 @@ $(RELEASE_DIR)/objects/%.o: %.cpp
 
 $(RELEASE_TARGET): $(RELEASE_OBJS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(RELEASE_FLAGS) $(INCLUDE) $(LDFLAGS) -o $(RELEASE_TARGET) $^
+	$(CXX) $(CXXFLAGS) $(RELEASE_FLAGS) $(INCLUDE) -o $(RELEASE_TARGET) $^ $(LDFLAGS)
 
 #
 # Other rules

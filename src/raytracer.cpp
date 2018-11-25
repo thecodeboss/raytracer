@@ -9,6 +9,7 @@
 #include "objects/object_list.h"
 #include "objects/sphere.h"
 #include "ray.h"
+#include "thread_pool.h"
 #include <cinttypes>
 #include <cmath>
 #include <iostream>
@@ -44,28 +45,30 @@ void render(const Camera &camera, Image &image, Object *world, const std::string
   double scale = tan(camera.fov / 2);
   double aspect_ratio = double(image.x) / image.y;
 #ifdef DEBUG
-  const int num_samples = 25;
-#else
   const int num_samples = 100;
+#else
+  const int num_samples = 800;
 #endif
 
   Vec3f camera_position = camera.position();
-  Ray ray(camera_position, Vec3f(0, 0, 0));
+  ThreadPool thread_pool;
 
   for (int s = 0; s < num_samples; s++) {
-    for (int i = 0; i < image.y; i++) {
-      for (int j = 0; j < image.x; j++) {
-        Color color(0.0, 0.0, 0.0);
-
-        double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
-        double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
-        ray.direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
-        color += cast_ray(ray, world, 0);
-
-        image[i][j] += color;
+    thread_pool.add_task([&]() -> void {
+      Ray ray(camera_position, Vec3f(0, 0, 0));
+      for (int i = 0; i < image.y; i++) {
+        for (int j = 0; j < image.x; j++) {
+          double x = (2 * (j + drand()) / double(image.x) - 1) * aspect_ratio * scale;
+          double y = (1 - 2 * (i + drand()) / double(image.y)) * scale;
+          ray.direction = camera.camera_to_world.multiply_dir(Vec3f(x, y, -1)).normalize();
+          Color color = cast_ray(ray, world, 0);
+          image.safe_add(i, j, color);
+        }
       }
-    }
+    });
   }
+
+  thread_pool.wait_all();
 
   for (int i = 0; i < image.y; i++) {
     for (int j = 0; j < image.x; j++) {
