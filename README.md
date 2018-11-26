@@ -27,3 +27,7 @@ way, making use of techniques from [Scratchapixel][s] and the book
 [rt]: http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html
 [p]: http://www.pbr-book.org/
 [s]: https://www.scratchapixel.com/
+
+## License
+
+Code in this repository is released under the MIT License - see the LICENSE file.
