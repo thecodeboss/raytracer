@@ -7,6 +7,20 @@ previously used in [Fantasi][f]. In this project, rays scatter off of surfaces t
 stochastically, whereas in Fantasi rays followed a deterministic path, computing lighting using
 some approximations.
 
+It supports:
+
+- [x] Spheres
+- [x] Diffuse (Lambertian) materials
+- [x] Metallic materials
+- [x] Dielectric materials (ie. glass)
+- [x] Diffuse light emitting materials
+- [x] Camera transformations
+- [x] Camera field-of-view setting
+- [x] Camera aperture setting (ie. depth of field)
+- [x] Antialiasing
+- [x] PPM Image format
+- [x] Multi-threaded sampling
+
 ## Building
 
 Currently this only supports Linux (and maybe macOS) based systems. You'll need a version of g++
