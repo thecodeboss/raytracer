@@ -40,7 +40,6 @@ Color cast_ray(const Ray &ray, Object *world, int depth) {
       return emitted;
     }
   } else {
-    // return black;
     return background(ray);
   }
 }

@@ -3,7 +3,15 @@
 #
 CXX       := g++
 CXXFLAGS  := -pedantic-errors -Wall -Wextra -Werror -std=c++17
-LDFLAGS   := -L/usr/lib -lstdc++ -lm -lboost_system -lboost_thread 
+LDFLAGS   := -L/usr/lib -lstdc++ -lm
+UNAME_S   := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	LDFLAGS += -lboost_system -lboost_thread
+endif
+ifeq ($(UNAME_S),Darwin)
+	LDFLAGS += -lboost_system-mt -lboost_thread-mt
+endif
 
 #
 # Project files
